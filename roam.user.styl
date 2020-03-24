@@ -1,0 +1,412 @@
+/* ==UserStyle==
+@name         Roam Gruvbox
+@description  Dark, customizable theme for ROAM.
+@namespace    github.com/runxel/dark-roam
+@homepageURL  https://github.com/runxel/dark-roam
+@supportURL   https://github.com/runxel/dark-roam/issues
+@updateURL    https://raw.githubusercontent.com/runxel/dark-roam/master/roam.user.styl
+@version      1.0.0
+@author       runxel (https://github.com/runxel)
+@license      BOML
+@preprocessor stylus
+
+@var text     ui_font   'Custom UI font' ''font_name''
+@var text     font_size 'Custom Font-Size' 18px
+@var checkbox ff_scroll 'Thin scrollbars in Firefox where suitable' 1
+
+@var color    dark      'Color: Primary background   ' #292828
+@var color    darker    'Color: Secondary background ' #191a1a
+@var color    darker2   'Color: Tertiary background  ' #191a1a
+@var color    light     'Color: Primary foreground   ' #d5c4a1
+@var color    accent    'Color: Accent               ' #de935f
+@var color    red       'Color: Red                  ' #a54242
+@var color    yellow    'Color: Yellow               ' #f0c674
+@var color    green     'Color: Green                ' #859900
+@var color    blue      'Color: Blue                 ' #5f819d
+@var color    cyan      'Color: Cyan                 ' #5e8d87
+
+==/UserStyle== */
+
+@-moz-document domain("roamresearch.com") {
+    
+    lighter    = rgba(lighten(light, 35%), 0.65);
+    lighter-cm = desaturate(darken(lighter, 20%), 20%)
+    dark-hi    = lighten(dark, 20%);
+    darker-hi  = lighten(darker, 10%);
+    darker-hi2 = lighten(dark-hi, 20%)
+    i = !important;
+
+    :root {
+        if ui_font {
+            --ui-font: ui_font;
+        } else {
+            --ui-font: ui_font, 'Segoe UI', 'Helvetica Neue', Helvetica, 'Lucida Grande', Arial, Ubuntu, Cantarell, 'Fira Sans', sans-serif;
+        }
+    }
+
+    /// MiXiNS
+    /// color mixin
+    c(x, y = 0, z = 0, xi = 1, yi = 1, zi = 1) {
+        i = !important;
+        if x is a 'call' or x is a 'rgba' {            color: xi is 0? x : x i }
+        if y is a 'call' or y is a 'rgba' {     border-color: yi is 0? y : y i }
+        if z is a 'call' or z is a 'rgba' { background-color: zi is 0? z : z i }
+    }
+    /// scrollbar mixin
+    scroll(x, y) {
+        scrollbar-color: x y;
+    }
+    /// rounded corners
+    rad() { border-radius: arguments }
+    /// transition
+    trans(t = 0.4s, w = all) { transition: w t }
+
+    ::selection {
+        c: darker 0 accent;
+    }
+
+    body, html {
+        font-size: font_size;
+    }
+    body, html, div {
+        font-family: var(--ui-font) i;
+    }
+
+    /// REFERENCES
+    .rm-page-ref {
+        c: yellow;
+    }
+    .rm-page-ref-brackets {
+        c: lighter-cm;
+    }
+    .rm-block-ref {
+        c: accent;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        border-bottom: none i;
+        trans();
+    }
+    .rm-block-ref:hover  {
+        c: 0 0 rgba(light, 0.35);
+        text-decoration: none;
+    }
+    a, a:focus, a:hover {
+        c: accent;
+    }
+
+    /// TODO CHECK
+    .checkmark {
+        c: 0 0 dark-hi;
+        height: 18px;
+        width: @height;
+    }
+    .check-container {
+        padding-left: 18px;
+        margin-bottom: 15px;
+    }
+    .check-container input:checked ~ .checkmark {
+        c: 0 0 green;
+    }
+    .check-container input:checked ~ .checkmark:after {
+        border-color: #fff;
+    }
+    .check-container .checkmark::after {
+        top: -3px;
+        width: 10px;
+        height: @width*2;
+    }
+
+    /// SLIDER
+    .bp3-slider-progress.bp3-intent-primary {
+        c: 0 0 green;
+    }
+    .bp3-slider-handle .bp3-slider-label {
+        /// active number
+        c: 0 0 dark-hi;
+    }
+
+    /// Topbar
+    #right-sidebar div .rm-reference-item div,
+    .roam-topbar,
+    .roam-body {
+        c: 0 0 dark;
+    }
+
+    .roam-body-main {
+        c: light 0 dark;
+        scroll: dark-hi dark; 
+    }
+
+    /// Headline
+    .rm-title-display,
+    .roam-app h1 {
+        c: light;
+    }
+    .roam-article div[style*="cursor"]  { // the headline when you move down in the hierarchy
+        c: lighten(dark-hi, 20%);
+    }
+
+    /// BASIC
+    .roam-body .roam-app {
+        c: light;
+    }
+    .bp3-button:not([class*="bp3-intent-"]) {
+        // every button
+        background-image: none;
+    }
+
+    .roam-center {
+        scroll: dark-hi dark;
+    }
+
+    /// bullet
+    .controls .simple-bullet-outer .simple-bullet-inner {
+        c: 0 0 lighter;
+    }
+
+    /// ^^highlight^^
+    .roam-highlight {
+        c: dark 0 cyan;
+        rad: 4px;
+    }
+
+    /// SIDEBAR LEFT
+    .roam-sidebar-container {
+        c: lighter 0 darker;
+    }
+    /// text in sidebar
+    .roam-body .roam-app .roam-sidebar-container .roam-sidebar-content .log-button,
+    .bp3-icon-small .bp3-icon-star,
+    .starred-pages-wrapper,
+    .starred-pages,
+    .starred-pages a,
+    .starred-pages .page {
+        c: lighter;
+    }
+    .bp3-button .bp3-minimal .bp3-icon-plus .bp3-small ::before {
+        color: lighter;
+    }
+    /// the small divider
+    .flex-v-box .starred-pages-wrapper > div:first-child {
+        c: 0 0 lighter;    
+    }
+    /// hover action
+    .roam-body .roam-app .roam-sidebar-container .roam-sidebar-content .log-button:hover,
+    .starred-pages .page:hover,
+    .bp3-button.bp3-minimal:hover /* log in name */ {
+        c: 0 0 darker-hi;
+    }
+    /// + button
+    .bp3-button[class*="bp3-icon-"]::before {
+        color: lighter;
+    }
+
+    /// log out action
+    .bp3-popover .bp3-popover-content {
+        c: light 0 dark;
+    }
+
+    /// sidebar logo
+    #roam-sidebar-logo img {
+        opacity: 0.6;
+    }
+    #roam-sidebar-logo span {
+        c: lighter;
+    }
+    #roam-sidebar-logo:hover {
+        c: 0 0 darker-hi;
+    }
+    #roam-sidebar-logo:hover img {
+        opacity: 0.9;
+    }
+
+    /// SIDEBAR RIGHT
+    #right-sidebar {
+        c: 0 0 darker2;
+    }
+    #roam-right-sidebar-content {
+        scroll: dark darker2;
+    }
+
+    /// EMPTY page, ghost text
+    .rm-title-untitled,
+    #block-input-ghost,
+    #block-input-ghost > span {
+        c: lighter;
+    }
+
+    /// THREE DOTS menu
+    .bp3-menu {
+        c: 0 0 darker;
+    }
+    .bp3-menu-item:hover, .bp3-submenu .bp3-popover-target.bp3-popover-open > .bp3-menu-item {
+        c: 0 0 dark-hi;
+    }
+
+    /// DAILY NOTES
+    .roam-log-container .roam-log-page {
+        /// the divider between dates
+        border-top-color: lighter-cm;
+    }
+
+    /// ALL PAGES
+    .rm-pages-row-highlight {
+        c: 0 0 dark-hi;
+    }
+    .rm-pages-row .rm-pages-col {
+        c: lighter-cm;
+        font-size: 0.8em;
+    }
+    .rm-pages-title-col .bp3-text-overflow-ellipsis > span {
+        c: light;
+    }
+    .rm-pages-row[style*="background-"] {
+        c: light 0 darker;
+    }
+    #all-pages-search .bp3-button.bp3-minimal.bp3-intent-success {
+        c: #fff 0 rgba(green, 0.3);
+    }
+    #all-pages-search .bp3-button.bp3-minimal.bp3-intent-success:hover {
+        c: #fff 0 rgba(green, 0.6);
+    }
+
+    /// SEARCH
+    .bp3-input {
+        c: light 0 darker;
+    }
+    .bp3-input:focus,
+    .bp3-input:active {
+        box-shadow: 0 0 0 1px yellow,
+                    0 0 0 3px darken(yellow, 55%),
+              inset 0 1px 1px rgba(16,22,26,0.2);
+    }
+    ::placeholder {
+        c: lighter-cm
+    }
+
+    /// HIGHLIGHT when selected
+    .block-highlight-blue {
+        c: dark 0 rgba(yellow, 0.8);
+    }
+
+
+    /// COMMAND palette
+    .bp3-elevation-3 {
+        if (ff_scroll == 1) {
+            scrollbar-width: thin;
+        }
+        c: 0 0 darker;
+        scroll: darker-hi darker;
+    }
+    .bp3-elevation-3 > div:hover {
+        c: 0 0 darker-hi;
+    }
+    .bp3-elevation-3 > div[style*="background-color"]  {
+        /// active item
+        c: dark 0 accent;
+    }
+    .bp3-elevation-3 > div > span[style*="color"] {
+        /// keyboard shortcuts
+        c: dark-hi;
+    }
+
+    /// DATEPICKER
+    .bp3-datepicker {
+        c: 0 0 darker;
+    }
+    .bp3-popover .bp3-popover-arrow-fill {
+        /// triangle
+        fill: darker;
+    }
+    .bp3-popover-target.bp3-popover-open > .bp3-button:not([class*="bp3-intent-"]) {
+        background: accent i;
+    }
+    .bp3-popover-target.bp3-popover-open > .bp3-button:not([class*="bp3-intent-"])::before {
+        c: dark;
+    }
+    .bp3-datepicker .DayPicker-Day.DayPicker-Day--outside {
+        /// date not in current month
+        c: dark-hi;
+    }
+    .bp3-datepicker .DayPicker-Day:hover, .bp3-datepicker .DayPicker-Day:focus {
+        /// active date
+        c: dark 0 accent;
+    }
+    .bp3-button.bp3-minimal:hover {
+        /// button hover
+        c: 0 0 dark-hi;
+    }
+    .bp3-html-select.bp3-minimal select, .bp3-select.bp3-minimal select {
+        c: light;
+    }
+    .bp3-html-select.bp3-minimal select:hover, .bp3-select.bp3-minimal select:hover {
+        c: accent;
+    }
+    .bp3-icon .bp3-icon-double-caret-vertical {
+        right: 0px i;
+    }
+    /// icons
+    .bp3-icon > svg:not([fill]) {
+        fill: dark-hi;
+    }
+    .bp3-icon:hover > svg:not([fill]) {
+        fill: accent;
+    }
+
+    /// REF COUNT
+    .block-ref-count-button {
+        c: 0 0 dark-hi;
+    }
+    /// block reference
+    .rm-reference-item {
+        c: 0 dark-hi transparent;
+        border: 1px solid;
+        rad: 5px;
+    }
+
+    /// WORDCOUNT
+    .roam-block .bp3-button:not([class*="bp3-intent-"]) {
+        c: #fff 0 blue;
+        background-image: none;
+    }
+
+    /// LATEX
+    .katex-error { /// error, entered LaTeX is wrong
+        c: red;
+    }
+
+    /// BUFFER (the help thingy)
+    #buffer {
+        c: 0 0 dark-hi;
+        right: 20px i;
+        scroll: dark dark-hi;
+    }
+    #buffer .bp3-icon-large.bp3-icon-help {
+        c: rgba(accent, 0.6);
+    }
+    #buffer div[style*="overflow"] {
+        if (ff_scroll == 1) {
+            scrollbar-width: thin;
+        }
+    }
+
+    /* TODO: definitely needs some polishing */
+    /// CODE BLOCKS
+    .CodeMirror {
+        c: 0 0 darker-hi2;
+    }
+    .CodeMirror-gutters {
+        c: 0 0 darker;
+    }
+    .cm-s-default .cm-string {
+        c: green;
+    }
+
+    /// hide the messaging thing
+    .intercom-app,
+    .intercom-launcher-frame,
+    #intercom-container {
+        display: none !important;
+    }
+
+}
