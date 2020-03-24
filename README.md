@@ -17,7 +17,7 @@ A dark, gruvboxy theme for [Roam Research](https://roamresearch.com/). Highly cu
 - Select your own font
 
 ## Installation
-You have to install [Stylus](https://add0n.com/stylus.html) and then click on this install link below.
+You have to install [Stylus](https://add0n.com/stylus.html) and then click on this install link below.  
 [![](https://img.shields.io/badge/Install%20directly%20with-Stylus-116b59?longCache=true&style=for-the-badge)](https://raw.githubusercontent.com/runxel/dark-roam/master/roam.user.styl)
 
 ## License
